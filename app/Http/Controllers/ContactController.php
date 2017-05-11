@@ -17,6 +17,7 @@ class ContactController extends Controller
 //            $contact  = Contact::where('group_id',$group_id)->orderBy('id','desc')->paginate(7);
 //        }else{
 //            $contact = Contact::orderBy('id','desc')->paginate(7);
+        // heelo
 //        }
         $contact = Contact::where(function ($query) use ($request){
             if ($group_id = $request->get('group_id')){
