@@ -13,11 +13,19 @@ class ContactController extends Controller
         'email' => ['required','email']
     ];
     public function table(Request $request){
-        if ($group_id = $request->get('group_id')){
-            $contact  = Contact::where('group_id',$group_id)->orderBy('id','desc')->paginate(7);
-        }else{
-            $contact = Contact::orderBy('id','desc')->paginate(7);
-        }
+//        if ($group_id = $request->get('group_id')){
+//            $contact  = Contact::where('group_id',$group_id)->orderBy('id','desc')->paginate(7);
+//        }else{
+//            $contact = Contact::orderBy('id','desc')->paginate(7);
+//        }
+        $contact = Contact::where(function ($query) use ($request){
+            if ($group_id = $request->get('group_id')){
+                $query->where('group_id',$group_id);
+            }
+            if ($search = $request->get('search')){
+                $query->where('name','LIKE','%'.$search.'%');
+            }
+        })->orderBy('id','DESC')->paginate('7');
 
         return view('admin.contact.TableContact',compact('contact'));
     }
@@ -38,8 +46,13 @@ class ContactController extends Controller
     public function postUpdate($id,Request $request){
         $this->validate($request,$this->rules);
         $contact = Contact::find($id);
-         $contact->update($request->all());
+        $contact->update($request->all());
         return redirect('admin/contact/table')->with('notification','Contact Updated');
 
+    }
+    public function getDestroy($id){
+        $contact = Contact::find($id);
+        $contact->delete();
+        return redirect('admin/contact/table')->with('notification','Contact Deleted');
     }
 }

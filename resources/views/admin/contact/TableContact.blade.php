@@ -1,7 +1,8 @@
 @extends("admin.layout.main")
 @section("page-content")
 
-    <div class="modal fade" id="portlet-config" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal fade" id="portlet-config" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+         aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -57,30 +58,24 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="btn-group">
-                                  <a href="{!! url('admin/contact/create') !!}"  class="btn green">
+                                    <a href="{!! url('admin/contact/create') !!}" class="btn green">
                                         Add New <i class="fa fa-plus"></i></a>
 
                                 </div>
                             </div>
-                            <div class="col-md-6">
-                                <div class="btn-group pull-right">
-                                    <button class="btn dropdown-toggle" data-toggle="dropdown">Tools <i class="fa fa-angle-down"></i>
-                                    </button>
-                                    <ul class="dropdown-menu pull-right">
-                                        <li>
-                                            <a href="javascript:;">
-                                                Print </a>
-                                        </li>
-                                        <li>
-                                            <a href="javascript:;">
-                                                Save as PDF </a>
-                                        </li>
-                                        <li>
-                                            <a href="javascript:;">
-                                                Export to Excel </a>
-                                        </li>
-                                    </ul>
-                                </div>
+
+                            <div class="col-md-6 ">
+                                <form class="navbar-right navbar-form" action="{{route('contact.table')}}" method="GET">
+                                    <div class="input-group">
+                                        <input type="text" class="form-control " placeholder="Search..."
+                                               name="search">
+                                        <span class="input-group-btn">
+                                         <button class="btn btn-info" type="submit">
+                                             <i class="fa fa-search"></i>
+                                         </button>
+                                    </span>
+                                    </div>
+                                </form>
                             </div>
                         </div>
                     </div>
@@ -118,18 +113,20 @@
                         </tr>
                         </thead>
                         <tbody>
-                            @foreach($contact  as $value)
+                        @foreach($contact  as $value)
 
-                                <tr>
-                                   <td>{{$value->id}}</td>
-                                    <td>{{$value->name}}</td>
-                                    <td>{{$value->company}}</td>
-                                    <td>{{$value->email}}</td>
-                                    <td>{{$value->phone}}</td>
-                                    <td><a href="{{url("admin/contact/update",['id'=>$value->id])}}" class=""><i class="fa fa-pencil"/> Edit </a></td>
-                                    <td><a href="#" class=""><i class="fa fa-trash"/> Delete</a></td>
-                                </tr>
-                            @endforeach
+                            <tr>
+                                <td>{{$value->id}}</td>
+                                <td>{{$value->name}}</td>
+                                <td>{{$value->company}}</td>
+                                <td>{{$value->email}}</td>
+                                <td>{{$value->phone}}</td>
+                                <td><a href="{{url("admin/contact/update",['id'=>$value->id])}}" class=""><i
+                                                class="fa fa-pencil"/> Edit </a></td>
+                                <td><a href="{{url("admin/contact/delete",['id'=>$value->id])}}" class=""><i
+                                                class="fa fa-trash"/> Delete</a></td>
+                            </tr>
+                        @endforeach
                         </tbody>
 
                     </table>
