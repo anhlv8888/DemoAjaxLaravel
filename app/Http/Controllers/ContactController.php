@@ -24,7 +24,12 @@ class ContactController extends Controller
                 $query->where('group_id',$group_id);
             }
             if ($search = $request->get('search')){
-                $query->where('name','LIKE','%'.$search.'%');
+//                dd($search);
+                $keyword = '%'. $search .'%';
+                $query->orWhere('email','LIKE',$keyword);
+                $query->orWhere('name','LIKE',$keyword);
+                $query->orWhere('company','LIKE',$keyword);
+
             }
         })->orderBy('id','DESC')->paginate('7');
 
