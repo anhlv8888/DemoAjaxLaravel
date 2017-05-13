@@ -28,7 +28,7 @@
     <div class="page-head">
         <!-- BEGIN PAGE TITLE -->
         <div class="page-title">
-            <h1>Category</h1>
+            <h1>Contact</h1>
         </div>
         <!-- END PAGE TITLE -->
 
@@ -40,7 +40,7 @@
             <div class="portlet box blue">
                 <div class="portlet-title">
                     <div class="caption">
-                        <i class="fa fa-edit"></i>Category Table
+                        <i class="fa fa-edit"></i>Contact Table
                     </div>
                     <div class="tools">
                         <a href="javascript:;" class="collapse">
@@ -140,4 +140,4 @@
             </div>
         </div>
     </div>
-@stop
+@endsection

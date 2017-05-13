@@ -59,7 +59,19 @@ class ContactController extends Controller
     public function getDestroy($id){
         $contact = Contact::find($id);
         $contact->delete();
-        // abc
         return redirect('admin/contact/table')->with('notification','Contact Deleted');
+    }
+    public function autocomplete(Request $request){
+        if ($request->ajax()) {
+            return Contact::select(['id', 'name as value'])->where(function ($query) use ($request) {
+                if ($search = $request->get("search")) {
+                    $keyword = '%' . $search . '%';
+                    $query->orWhere('name', 'LIKE', $keyword);
+
+                }
+            })->orderBy('name', 'desc')
+                ->take(5)
+                ->get();
+        }
     }
 }

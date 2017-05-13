@@ -50,7 +50,7 @@ License: You must have a valid license purchased only from themeforest(the above
 <link href="{{ asset('admin/assets/admin/layout4/css/themes/light.css') }} " rel="stylesheet" type="text/css" id="style_color"/>
 <link href="{{ asset('admin/assets/admin/layout4/css/custom.css') }} " rel="stylesheet" type="text/css"/>
 <!-- END THEME STYLES -->
-<link rel="shortcut icon" href="favicon.ico"/>
+{{--<link rel="shortcut icon" href="favicon.ico"/>--}}
 	 {{--Setup Ckeditor and ckfinder--}}
 
 	<script src="{{ asset('admin/word/ckeditor/ckeditor.js') }} " type="text/javascript"></script>
@@ -374,11 +374,11 @@ License: You must have a valid license purchased only from themeforest(the above
 						<img alt="" class="img-circle" src="{{asset("admin/assets/admin/layout4/img/avatar9.jpg")}}"/>
 						</a>
 						<ul class="dropdown-menu dropdown-menu-default">
-							@if(Auth::check())
+							{{--@if(Auth::check())--}}
 							<li>
 								<a href="extra_profile.html">
 								<i class="icon-user"></i>
-									{{Auth::user()->name}}
+									{{--{{Auth::user()->name}}--}}
 								</a>
 							</li>
 							<li>
@@ -407,7 +407,7 @@ License: You must have a valid license purchased only from themeforest(the above
 								<a href="{!! url('admin/logout') !!}">
 								<i class="icon-key"></i> Log Out </a>
 							</li>
-								@endif
+								{{--@endif--}}
 						</ul>
 					</li>
 					<!-- END USER LOGIN DROPDOWN -->
@@ -545,13 +545,25 @@ License: You must have a valid license purchased only from themeforest(the above
 jQuery(document).ready(function() {
    Metronic.init(); // init metronic core componets
    Layout.init(); // init layout
-   Demo.init(); // init demo features
-   QuickSidebar.init(); // init quick sidebar
-//    Index.init(); // init index page
+//   Demo.init(); // init demo features
+//   QuickSidebar.init(); // init quick sidebar
+//     Index.init(); // init index page
  Tasks.initDashboardWidget(); // init tash dashboard widget
 });
 </script>
 @yield('script')
+<script>
+	$(function () {
+		$("input[name = 'search' ]").autocomplete({
+			source: "{{ route("contact.autocomplete") }}",
+			minLength:3,
+			select: function (event,ui) {
+				$(this).val(ui.item.value);
+            }
+		});
+    })
+</script>
+
 <!-- END JAVASCRIPTS -->
 </body>
 <!-- END BODY -->
