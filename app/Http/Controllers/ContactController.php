@@ -59,6 +59,7 @@ class ContactController extends Controller
     public function getDestroy($id){
         $contact = Contact::find($id);
         $contact->delete();
+        // abc
         return redirect('admin/contact/table')->with('notification','Contact Deleted');
     }
 }
