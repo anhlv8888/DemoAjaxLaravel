@@ -22,5 +22,10 @@ Route::group(['prefix'=>'admin'],function (){
         Route::get('update/{id}','ContactController@getUpdate');
         Route::post('update/{id}','ContactController@postUpdate')->name('contact.update');
         Route::get('delete/{id}','ContactController@getDestroy');
+        Route::get('autocomplete','ContactController@autocomplete')->name('contact.autocomplete');
+    });
+    Route::group(['prefix'=>'group'],function (){
+        Route::post('store','GroupController@store')->name('group.store');
     });
 });
+

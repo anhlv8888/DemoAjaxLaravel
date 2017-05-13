@@ -17,13 +17,19 @@ class ContactController extends Controller
 //            $contact  = Contact::where('group_id',$group_id)->orderBy('id','desc')->paginate(7);
 //        }else{
 //            $contact = Contact::orderBy('id','desc')->paginate(7);
+        // Hello
 //        }
         $contact = Contact::where(function ($query) use ($request){
             if ($group_id = $request->get('group_id')){
                 $query->where('group_id',$group_id);
             }
             if ($search = $request->get('search')){
-                $query->where('name','LIKE','%'.$search.'%');
+//                dd($search);
+                $keyword = '%'. $search .'%';
+                $query->orWhere('email','LIKE',$keyword);
+                $query->orWhere('name','LIKE',$keyword);
+                $query->orWhere('company','LIKE',$keyword);
+
             }
         })->orderBy('id','DESC')->paginate('7');
 
@@ -54,5 +60,18 @@ class ContactController extends Controller
         $contact = Contact::find($id);
         $contact->delete();
         return redirect('admin/contact/table')->with('notification','Contact Deleted');
+    }
+    public function autocomplete(Request $request){
+        if ($request->ajax()) {
+            return Contact::select(['id', 'name as value'])->where(function ($query) use ($request) {
+                if ($search = $request->get("search")) {
+                    $keyword = '%' . $search . '%';
+                    $query->orWhere('name', 'LIKE', $keyword);
+
+                }
+            })->orderBy('name', 'desc')
+                ->take(5)
+                ->get();
+        }
     }
 }
