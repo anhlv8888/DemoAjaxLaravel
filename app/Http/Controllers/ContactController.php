@@ -12,14 +12,17 @@ class ContactController extends Controller
         'company' => ['required'],
         'email' => ['required','email']
     ];
+    public function  __construct(){
+        $this->middleware('auth');
+    }
     public function table(Request $request){
-//        if ($group_id = $request->get('group_id')){
-//            $contact  = Contact::where('group_id',$group_id)->orderBy('id','desc')->paginate(7);
-//        }else{
-//            $contact = Contact::orderBy('id','desc')->paginate(7);
-        // Hello
-//        }
+//        \DB::enableQueryLog();
+//        listGroups($request->user()->id);
+//        dd(\DB::getQueryLog());
         $contact = Contact::where(function ($query) use ($request){
+            // filter by current user
+//            dd($request->user()->id);
+            $query->where("user_id",$request->user()->id);
             if ($group_id = $request->get('group_id')){
                 $query->where('group_id',$group_id);
             }
@@ -41,7 +44,8 @@ class ContactController extends Controller
     public function postCreate(Request $request){
 
         $this->validate($request,$this->rules );
-        Contact::create($request->all());
+//        Contact::create($request->all());
+        $request->user()->contacts()->create($request->all());
         return redirect('admin/contact/table')->with('notification','Contact Saved');
     }
     public function getUpdate($id){
