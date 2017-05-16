@@ -374,11 +374,11 @@ License: You must have a valid license purchased only from themeforest(the above
 						<img alt="" class="img-circle" src="{{asset("admin/assets/admin/layout4/img/avatar9.jpg")}}"/>
 						</a>
 						<ul class="dropdown-menu dropdown-menu-default">
-							{{--@if(Auth::check())--}}
+							@if(Auth::check())
 							<li>
 								<a href="extra_profile.html">
 								<i class="icon-user"></i>
-									{{--{{Auth::user()->name}}--}}
+									{{Auth::user()->name}}
 								</a>
 							</li>
 							<li>
@@ -404,10 +404,10 @@ License: You must have a valid license purchased only from themeforest(the above
 								<i class="icon-lock"></i> Lock Screen </a>
 							</li>
 							<li>
-								<a href="{!! url('admin/logout') !!}">
+								<a href="#">
 								<i class="icon-key"></i> Log Out </a>
 							</li>
-								{{--@endif--}}
+								@endif
 						</ul>
 					</li>
 					<!-- END USER LOGIN DROPDOWN -->
@@ -456,12 +456,15 @@ License: You must have a valid license purchased only from themeforest(the above
 					<span class="arrow "></span>
 					</a>
 					<ul class="sub-menu">
+						<?php
+							$listGroups = listGroups(Auth::user()->id);
+						?>
 						<li>
-							<a href="{{route('contact.table')}}"> All Contact <span class="badge">{{ App\Contact::count() }}</span></a>
+							<a href="{{route('contact.table')}}"> All Contact <span class="badge"> {{collect($listGroups)->sum('total')}}</span></a>
 						</li>
-						@foreach(App\Group::all() as $value)
+						@foreach($listGroups as $value)
 							<li>
-								<a href="{{route('contact.table',['group_id' => $value->id])}}"> {{$value->name}} <span class="badge">{{ $value->contacts->count() }}</span></a>
+								<a href="{{route('contact.table',['group_id' => $value->id])}}"> {{$value->name}} <span class="badge">{{ $value->total }}</span></a>
 							</li>
 							@endforeach
 
