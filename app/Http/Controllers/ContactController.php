@@ -27,14 +27,15 @@ class ContactController extends Controller
                 $query->where('group_id',$group_id);
             }
             if ($search = $request->get('search')){
-//                dd($search);
+                //        dd($contact);
                 $keyword = '%'. $search .'%';
-                $query->orWhere('email','LIKE',$keyword);
                 $query->orWhere('name','LIKE',$keyword);
+                $query->orWhere('email','LIKE',$keyword);
                 $query->orWhere('company','LIKE',$keyword);
 
             }
         })->orderBy('id','DESC')->paginate('7');
+
 
         return view('admin.contact.TableContact',compact('contact'));
     }
@@ -68,6 +69,7 @@ class ContactController extends Controller
         return redirect('admin/contact/table')->with('notification','Contact Deleted');
     }
     public function autocomplete(Request $request){
+        dd(123);
         if ($request->ajax()) {
             return Contact::select(['id', 'name as value'])->where(function ($query) use ($request) {
                 if ($search = $request->get("search")) {
