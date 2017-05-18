@@ -49,19 +49,21 @@ class ContactController extends Controller
         return redirect('admin/contact/table')->with('notification','Contact Saved');
     }
     public function getUpdate($id){
-        $contact = Contact::find($id);
-//        dd($contact);
+        $contact = Contact::findOrFail($id);
+        $this->authorize('modify',$contact);
         return view('admin.contact.EditContact',compact('contact'));
     }
     public function postUpdate($id,Request $request){
         $this->validate($request,$this->rules);
-        $contact = Contact::find($id);
+        $contact = Contact::findOrFail($id);
+        $this->authorize('modify',$contact);
         $contact->update($request->all());
         return redirect('admin/contact/table')->with('notification','Contact Updated');
 
     }
     public function getDestroy($id){
-        $contact = Contact::find($id);
+        $contact = Contact::findOrFail($id);
+        $this->authorize('modify',$contact);
         $contact->delete();
         return redirect('admin/contact/table')->with('notification','Contact Deleted');
     }
